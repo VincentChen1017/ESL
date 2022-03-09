@@ -55,6 +55,6 @@ The Simulation time and the Pixels transfer times(from tb to filter) of Row-Base
 由上圖的模擬結果來看，版本一在Pixel transfer times from testbench to filter的次數為「589824」次，而版本二則僅有「66564」次。<br />
 從硬體的角度來解讀的話，版本二新增的Row-Buffer大幅的降低了Memory與CPU間的資料傳輸要求，這可以讓Power consumption的efficiency有大幅的改善。
 
-而由於程式內部的wait(delay_time)目前僅僅只是用來模擬整個behavior的行為，不帶有實際上特別的意義(delay_time可以任意改動)，<br />
-故我認為此處的Simulated time不像Pixel transfer times那樣有特殊的相對關係。
+而由於程式內部的wait(delay_time)目前僅僅只是用來模擬behavior而已，不帶有實際上特別的意義(delay_time可以任意改動)，<br />
+故我認為這兩個版本此處的Simulated time不像Pixel transfer times那樣有特殊的相對關係。
 
