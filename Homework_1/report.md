@@ -8,7 +8,7 @@
 在計算Convolution時，一次僅將「必要」的「一個」Pixel送入Filter內做運算。<br />
 
 第二種是內部有Row-Buffer來暫存Row Pixels的版本。<br />
-在計算Convolution前，會先一次讀入「三個Rows」的Pixels，並利用這三個存在Filter內（local）的Rows做運算。<br />
+在計算Convolution前，會先一次讀入「三個Rows」的Pixels，並利用這三個存在Filter內（local）的buffer做運算。<br />
 
 
 ### 2. Implementation details
@@ -21,10 +21,10 @@
 ![1646793854136@2x](https://user-images.githubusercontent.com/98183102/157362605-ce1733ae-cfac-46ab-a387-0a1a7f5c6a43.jpg)<br />
 
 
-
-
 ### 3. Additional features of your design and models
+在Row-Buffer Based的實現中，要特別注意的一點是，由於我只開3個buffer來儲存3個Row的pixel data。所以說當前運算使用的data以及下一次新讀進的Row data都僅能在這3個Buffer內做操作。<br />
 
+而我實現的辦法是：先定義Row[0]、Row[1]、Row[2]分別為由上往下的第一層～第三層，而只要當前3個Row的卷積運算完畢，則我會「依序」將Row[1]先shift給Row[0]，然後Row[2]shift給Row[1]，最後只要再將新讀進的Row data存放在R[2]就可以成功完成以下三個動作：1.保留舊的Row data 2.重新排列Row-Buffer 3.存入新的Row data。而重複上述操作就可以完成整張圖片的Convolution運算而不需要開設過多的Buffer或者是重複讀取多次相同的pixel data。
 
 ### 4. Experimental results
 The original picture:
@@ -34,6 +34,7 @@ The original picture:
 The blur picture generated from GaussianBlur filter(版本一跟版本二的Kernel參數選用一樣，故成像一樣）
 
 ![blur](https://user-images.githubusercontent.com/98183102/157357656-6d226cec-3221-4456-8a1c-3b5a8d281f83.png)
+
 
 ### 5. Discussions and conclusions
 The Simulation time and the Pixels transfer times(from tb to filter) of wFIFO version:<br />
