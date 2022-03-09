@@ -12,6 +12,14 @@
 
 
 ### 2. Implementation details
+在Gaussian Blur中，Kernel的定義方法是從2D的高斯分佈來取得。將kernel中心定義為原點，並且選定好分佈的範圍後透過下列公式可以求得Kernel的值：G(x, y) = exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * pi * sigma * sigma)。<br />
+
+不論是版本一或是版本二的運算都是3x3 convolution的運算，將pixel讀入filter後只要將3x3 convolution的點乘完成並且加總之後就可以得到一個pixel的輸出結果。<br />
+
+要特別注意的是，由於我希望輸出圖片尺寸與輸入圖片相同，故我在做pixel讀取的時候，會將width以及height左右各多加一單位，並利用判斷式來判斷當前讀取的地方是否為圖片邊緣，
+若是的話就會選擇將輸入filter的pixel data設成0，如此來實現zero-padding（如下圖）。<br />
+![1646793854136@2x](https://user-images.githubusercontent.com/98183102/157362605-ce1733ae-cfac-46ab-a387-0a1a7f5c6a43.jpg)<br />
+
 
 
 
@@ -23,7 +31,7 @@ The original picture:
 
 ![the original](https://user-images.githubusercontent.com/98183102/157357297-e57a3973-75d3-42b7-ab13-8766c6e5d721.png)
 
-The blur picture generated from GaussianBlur filter(版本一跟版本二的Kernal參數選用一樣，故成像一樣）
+The blur picture generated from GaussianBlur filter(版本一跟版本二的Kernel參數選用一樣，故成像一樣）
 
 ![blur](https://user-images.githubusercontent.com/98183102/157357656-6d226cec-3221-4456-8a1c-3b5a8d281f83.png)
 
@@ -45,5 +53,5 @@ The Simulation time and the Pixels transfer times(from tb to filter) of Row-Base
 從硬體的角度來解讀的話，版本二新增的Row-Buffer大幅的降低了Memory與CPU間的資料傳輸要求，這可以讓Power consumption的efficiency有大幅的改善。
 
 而由於程式內部的wait(delay_time)目前僅僅只是用來模擬整個behavior的行為，不帶有實際上特別的意義(delay_time可以任意改動)，<br />
-故我認為此處的Simulated time不像Pixel transfer times
+故我認為此處的Simulated time不像Pixel transfer times那樣有特殊的相對關係。
 
