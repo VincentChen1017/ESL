@@ -18,7 +18,7 @@
 (有效：value=0xff)，之後再將其透過「write_to_socket」的方式，打包成transaction後傳送給Target。（如下圖所示）<br />
 ![1648005607405@2x](https://user-images.githubusercontent.com/98183102/159618207-06416b1e-cb84-4e4b-af77-7ecdefd3562f.jpg)<br />
 
-並且在Bus端會將傳入的Addres進行decode，藉此決定Bus(Bus端的initial socket)要將transcation傳到哪一個target的socket中(Filter or Memory)。<br />
+並且在Bus端會將傳入的Addres「GAUSS_MM_BASE + GAUSS_FILTER_R_ADDR」進行decode，藉此決定Bus(Bus端的initial socket)要將transcation傳到哪一個target的socket中(Filter or Memory)。<br />
 
 #### Output part:
 &emsp;&emsp;  要特別注意的是在lab3、lab4之中，Sobel的輸出是「灰階」，所以僅僅只需要將「相同」的結果送往R,G,B三通道所對應的data pointer就好。但是在此作業中，由於Gaussian Filter的輸出會是「彩色」的所以必須要將Filter三個channel的輸出都利用獨立的data_buffer存起來，再將其分別給到R,G,B三通道對應的data pointer中。（如下圖所示）<br />
@@ -33,8 +33,8 @@ The blur picture generated from GaussianBlur filter
 
 ![hw2](https://user-images.githubusercontent.com/98183102/159618432-1437f837-87ad-446e-a5d4-42a93e21c451.png)<br />
 
-### 5. Discussions and conclusions
-&emsp;&emsp;  這次的作業將SystemC/TLM還有如何有效的做Memory的存取(DMI)給整合起來，儘管我還不能透徹的瞭解使用DMI來操作Memory還有使用一般transaction來傳遞資料在效益上到底有多大的差異，但是透過Lab3~Lab4+HW2的練習之後，我對Testbench(Initiator) > Bus、Router(Targer+Initiator) > Filter(Target)的連接有更近一步的認識！
+### 4. Discussions and conclusions
+&emsp;&emsp;  這次的作業將SystemC/TLM還有如何有效的做Memory的存取(DMI)給整合起來，儘管我還不能透徹的瞭解使用DMI來操作Memory還有使用一般transaction來傳遞資料在效益上到底有多大的差異，但是透過Lab3~Lab4+HW2的練習之後，我對Testbench(Initiator) - Bus、Router(Targer+Initiator) - Filter(Target)的連接有更近一步的認識！
 
 
 
