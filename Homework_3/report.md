@@ -2,39 +2,38 @@
 > GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_3
 
 ### 1. Introduction of the Problem and my Solution
-- 在lab3以及lab4中，我們首先學習如何使用TLM建立point-to-point的傳遞。也就是引入initiator還有target的觀念，將要傳輸的資料以transaction的形式打包後，透過socket來做data/pointer的傳輸。<br />
-
-&emsp;&emsp; 接著我們進一步學會了在initiator(Testbench)還有target(Filter)中間插入一個Bus來當作Router，來處理單一Initiator對多個Target的情況。<br />
-&emsp;&emsp; 而此次作業就是把Homework_1的架構整併成Testbench - Bus - Target的形式，利用Bus來處理Target端Filter/Memory的控制訊號。<br />
-
+&emsp;&emsp; 在這次的作業之中，我試著使用Cadence的Stratus來進行High Level Synthesis的練習。 <br />
+我將前兩次作業實作的GaussFilter修改成能夠合成的版本，並且將其進行Basic、Pipeline、LOOP UNROLL以及將他們綜合使用後進行效能對比。
 
 ### 2. Implementation details
-&emsp;&emsp; 在Gaussian Blur中，Kernel的定義方法是從2D的高斯分佈來取得。將kernel中心定義為原點，並且選定好分佈的範圍後透過下列公式可以求得Kernel的值：G(x, y) = exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * pi * sigma * sigma)。<br />
+&emsp;&emsp; 在進行HLS之前，我們必須注意要將in/out port修改成可以合成以及可以跑Stratus的port。例如System.h檔中的sc_fifo必須改成cynw_p2p以及GaussFilter.h檔中的sc_fifo_in必須改成scynw_p2p<>::in ......。
 
-&emsp;&emsp; 如同lab3以及lab4所做的，我把應該傳輸的data/pointer/address先用socket-to-socket的方式傳遞給中間的Bus，接著再透過Bus中的decoder來決定目前傳送的transaction是要丟給Filter或者是Memory做操作。
+- UNROLL:
+由於Filter必須進行3x3的卷積，故會有一個雙迴圈，首先我對他們兩個迴圈進行complete Unroll。
+![1650383272784@2x](https://user-images.githubusercontent.com/98183102/164043841-cbad7965-3e62-4a9e-a3af-aac045e560e1.jpg)<br />
 
-#### Input part:
-&emsp;&emsp; 由於我們的pixels資訊是R,G,B三個通道的量，所以我們會使用3個Buffer來暫存data，並且宣告有效的mask量為3<br />
-(有效：value=0xff)，之後再將其透過「write_to_socket」的方式，打包成transaction後傳送給Target。（如下圖所示）<br />
-![1648005607405@2x](https://user-images.githubusercontent.com/98183102/159618207-06416b1e-cb84-4e4b-af77-7ecdefd3562f.jpg)<br />
+- PIPELINE:
+接著每個迴圈內部其實會進行數值的運算並且累加，故我利用PIPELINE的方式試著提升他們的throughput。
+![1650383425090@2x](https://user-images.githubusercontent.com/98183102/164044311-01aeb56f-b3d6-4f8f-b227-d380fed5a56c.jpg)<br />
 
-並且在Bus端會將傳入的Addres「GAUSS_MM_BASE + GAUSS_FILTER_R_ADDR」進行decode，藉此決定Bus(Bus端的initial socket)要將transcation傳到哪一個target的socket中(Filter or Memory)。<br />
+- UNROLL,PIPELINE:
+最後我同時將全部的LOOP做UNROLL並且對它的累加運算做PIPELINE。試著觀察效能變化。
+![1650383509548@2x](https://user-images.githubusercontent.com/98183102/164044604-462f5c5d-d2a8-4b5b-a497-db1203e30895.jpg)<br />
 
-#### Output part:
-&emsp;&emsp;  要特別注意的是在lab3、lab4之中，Sobel的輸出是「灰階」，所以僅僅只需要將「相同」的結果送往R,G,B三通道所對應的data pointer就好。但是在此作業中，由於Gaussian Filter的輸出會是「彩色」的所以必須要將Filter三個channel的輸出都利用獨立的data_buffer存起來，再將其分別給到R,G,B三通道對應的data pointer中。（如下圖所示）<br />
-![1648005662522@2x](https://user-images.githubusercontent.com/98183102/159618216-59c13f92-db47-4849-942f-9e3c90c06df8.jpg)<br />
 
 ### 3. Experimental results
-The original picture:
+![hw3](https://user-images.githubusercontent.com/98183102/164047370-facbac12-bd5e-47dd-ac5d-8bada37457db.jpg)<br />
+&emsp;&emsp; 當我們使用BASIC版本的時候，他合成的面積確實是最小的，但是由於datapath沒有進行優化或者是平行調整的關係，Simulation times相較其他三者來著長非常多。<br />
+&emsp;&emsp; 而將雙迴圈整個UNROLL開後可以發現由於迴圈內部的運算全部平行處理的關係，Simulation times確實有大幅的下降，不過也因為平行運算所需要的硬體數量增加，故面積也上升。<br />
+&emsp;&emsp; 而PIPELINE的部分則又使Simulation times再度下降。不過當Pipeline切的Stage越多，同時運算的Stage越多，則所需要的硬體數量又是倍數上升，故面積增加了超過2倍的大小。<br />
+&emsp;&emsp; 我想在設計時，我們應該選擇要特別著重面積或者是timing來在PIPELINE以及UNROLL間做出不同的調整。
 
-![the original](https://user-images.githubusercontent.com/98183102/157357297-e57a3973-75d3-42b7-ab13-8766c6e5d721.png)
+&emsp;&emsp; 而下圖是我將PIPELINE的效應模擬到TLM上的結果，由於PIPELINE會提升for迴圈內累加運算的throughput。故我在TLM read-socket前加了280 cycle的delay來模擬經過PIPELINE後的throughput，可以看到TLM模擬PIPELINE的Simulation time與上方HLS跑出來的Simulation time非常接近。<br />
+![1650381267761@2x](https://user-images.githubusercontent.com/98183102/164046833-c5b598b4-715f-4e7a-b869-392359aca3f9.jpg)<br />
+![1650381207132@2x](https://user-images.githubusercontent.com/98183102/164046850-f623e79d-ad69-499e-a022-05d769fc3215.jpg)<br />
 
-The blur picture generated from GaussianBlur filter
-
-![hw2](https://user-images.githubusercontent.com/98183102/159618432-1437f837-87ad-446e-a5d4-42a93e21c451.png)<br />
 
 ### 4. Discussions and conclusions
-&emsp;&emsp;  這次的作業將SystemC/TLM還有如何有效的做Memory的存取(DMI)給整合起來，儘管我還不能透徹的瞭解使用DMI來操作Memory還有使用一般transaction來傳遞資料在效益上到底有多大的差異，但是透過Lab3~Lab4+HW2的練習之後，我對Testbench(Initiator) - Bus、Router(Targer+Initiator) - Filter(Target)的連接有更近一步的認識！
-
+&emsp;&emsp; 這次的作業讓我學會了使用HLS來進行電路的合成，由於HLS在Datapath上的便利性，可以直接使用各種Directive即可達到各種datapath處理的效果。不過由於內部隱含著很多最佳化的演算法，故最後合成出來的結果可能與我們想像的大相徑庭，或者是根本就很難去想像電路是如何被優化的。故在使用HLS時我認為必須要非常小心，要仔細的評估目前所下的各種Directive才是。
 
 
