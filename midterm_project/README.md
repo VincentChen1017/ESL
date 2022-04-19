@@ -11,7 +11,6 @@
 
 - cd midterm_syn/stratus
 - BASIC: make sim_V_BASIC
-- DPA: make sim_V_DPA
-- UNROLL: make sim_V_UNROLL
-- PIPELINE: make sim_V_PIPELINE
+- UNROLL + DPA: make sim_V_UNROLL
+- PIPELINE + DPA: make sim_V_PIPELINE
 
