@@ -1,8 +1,8 @@
-# ESL Homework_2 report / 107061272 陳力豪
-> GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_2
+# ESL Homework_3 report / 107061272 陳力豪
+> GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_3
 
 ### 1. Introduction of the Problem and my Solution
-&emsp;&emsp; 在lab3以及lab4中，我們首先學習如何使用TLM建立point-to-point的傳遞。也就是引入initiator還有target的觀念，將要傳輸的資料以transaction的形式打包後，透過socket來做data/pointer的傳輸。<br />
+- 在lab3以及lab4中，我們首先學習如何使用TLM建立point-to-point的傳遞。也就是引入initiator還有target的觀念，將要傳輸的資料以transaction的形式打包後，透過socket來做data/pointer的傳輸。<br />
 
 &emsp;&emsp; 接著我們進一步學會了在initiator(Testbench)還有target(Filter)中間插入一個Bus來當作Router，來處理單一Initiator對多個Target的情況。<br />
 &emsp;&emsp; 而此次作業就是把Homework_1的架構整併成Testbench - Bus - Target的形式，利用Bus來處理Target端Filter/Memory的控制訊號。<br />
