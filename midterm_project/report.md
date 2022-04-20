@@ -19,11 +19,9 @@
 ![1650388594873@2x](https://user-images.githubusercontent.com/98183102/164139418-9dec2e26-2fe5-40ed-9cd9-4c324b5f5e78.jpg)<br />
 
 ### 3. Experimental results
-![hw3](https://user-images.githubusercontent.com/98183102/164047370-facbac12-bd5e-47dd-ac5d-8bada37457db.jpg)<br />
-&emsp;&emsp; 當我們使用BASIC版本的時候，他合成的面積確實是最小的，但是由於datapath沒有進行優化或者是平行調整的關係，Simulation times相較其他三者來著長非常多。<br />
-&emsp;&emsp; 而將雙迴圈整個UNROLL開後可以發現由於迴圈內部的運算全部平行處理的關係，Simulation times確實有大幅的下降，不過也因為平行運算所需要的硬體數量增加，故面積也上升。<br />
-&emsp;&emsp; 而PIPELINE的部分則又使Simulation times再度下降。不過當Pipeline切的Stage越多，同時運算的Stage越多，則所需要的硬體數量又是倍數上升，故面積增加了超過2倍的大小。<br />
-&emsp;&emsp; 我想在設計時，我們應該選擇要特別著重面積或者是timing來在PIPELINE以及UNROLL間做出不同的調整。
+![mid](https://user-images.githubusercontent.com/98183102/164140129-8bd1ce1b-4461-470e-afb3-b6e6f2823b9a.jpg)<br />
+&emsp;&emsp; 如果以BASIC版本當作base line的話，可以發現在UNROLL的時候，基於把所有迴圈內的指令都展開來，故平行運算的硬體元件理應增加。可以發現在latency的部分確實有改善，不過也因為硬體元件的增加而使面積上升。<br />
+&emsp;&emsp; 在PIPELINE的部分，我們預期的是整個sorting的latency能夠大幅被改善，而就結果來看確實也達到目的（Latency 26 -> 8）。不過直得注意的是，照常來說當pipeline stage切得越多，同時運算的stage越多，而所需要的「不可共用」硬體元件就會越多，所以面積應該要大幅上升才對，不過這邊卻減少了快要4倍左右。
 
 &emsp;&emsp; 而下圖是我將PIPELINE的效應模擬到TLM上的結果，由於PIPELINE會提升for迴圈內累加運算的throughput。故我在TLM read-socket前加了280 cycle的delay來模擬經過PIPELINE後的throughput，可以看到TLM模擬PIPELINE的Simulation time與上方HLS跑出來的Simulation time非常接近。<br />
 ![1650381267761@2x](https://user-images.githubusercontent.com/98183102/164046833-c5b598b4-715f-4e7a-b869-392359aca3f9.jpg)<br />
