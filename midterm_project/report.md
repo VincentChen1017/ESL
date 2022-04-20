@@ -1,9 +1,8 @@
-# ESL Midterm_Project report / 107061272 陳力豪
+# ESL Midterm_Project - MergeSort / 107061272 陳力豪
 > GitHub link : https://github.com/VincentChen1017/ESL/tree/main/midterm_project
 
 ### 1. Introduction of the Problem and my Solution
-&emsp;&emsp; 在這次的作業之中，我試著使用Cadence的Stratus來進行High Level Synthesis的練習。 <br />
-我將前兩次作業實作的GaussFilter修改成能夠合成的版本，並且將其進行Basic、Pipeline、LOOP UNROLL以及將他們綜合使用後進行效能對比。
+&emsp;&emsp; 在這次的Project中，我挑選的題目是「MergeSort」。我會先透過SystemC TLM進行演算法的驗證，之後再將架構改為可以讓Stratus進行合成的版本。並寫會進行「BASIC」、「UNROLL」還有「PIPELINE」三種不同datapath的分析。
 
 ### 2. Implementation details
 &emsp;&emsp; 在進行HLS之前，我們必須注意要將in/out port修改成可以合成以及可以跑Stratus的port。例如System.h檔中的sc_fifo必須改成cynw_p2p以及GaussFilter.h檔中的sc_fifo_in必須改成scynw_p2p<>::in ......。
