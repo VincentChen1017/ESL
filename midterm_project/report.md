@@ -19,16 +19,27 @@
 ![1650388594873@2x](https://user-images.githubusercontent.com/98183102/164139418-9dec2e26-2fe5-40ed-9cd9-4c324b5f5e78.jpg)<br />
 
 ### 3. Experimental results
+- BASIC: <br />
+![1650425354924@2x](https://user-images.githubusercontent.com/98183102/164144765-03373cf4-ac09-4c5e-b84c-e0e0b994c1b1.jpg)<br />
+
+- UNROLL:<br />
+![UNROLL](https://user-images.githubusercontent.com/98183102/164144814-2998ccd3-db21-4937-b9d7-560a66a9ce37.jpg)<br />
+
+- PIPELINE:<br />
+![1650425383172@2x](https://user-images.githubusercontent.com/98183102/164144839-edcc9ff8-4259-48a0-96e7-389adaa2e99f.jpg)<br />
+
 ![mid](https://user-images.githubusercontent.com/98183102/164140129-8bd1ce1b-4461-470e-afb3-b6e6f2823b9a.jpg)<br />
 &emsp;&emsp; 如果以BASIC版本當作base line的話，可以發現在UNROLL的時候，基於把所有迴圈內的指令都展開來，故平行運算的硬體元件理應增加。可以發現在latency的部分確實有改善，不過也因為硬體元件的增加而使面積上升。<br />
-&emsp;&emsp; 在PIPELINE的部分，我們預期的是整個sorting的latency能夠大幅被改善，而就結果來看確實也達到目的（Latency 26 -> 8）。不過直得注意的是，照常來說當pipeline stage切得越多，同時運算的stage越多，而所需要的「不可共用」硬體元件就會越多，所以面積應該要大幅上升才對，不過這邊卻減少了快要4倍左右。
+&emsp;&emsp; 在PIPELINE的部分，我們預期的是整個sorting的latency能夠大幅被改善，而就結果來看確實也達到目的（Latency 26 -> 8）。不過直得注意的是，照常來說當pipeline stage切得越多，同時運算的stage越多，而所需要的「不可共用」硬體元件就會越多，所以面積應該要大幅上升才對，不過這邊卻減少了快要4倍左右。<br /><br />
+&emsp;&emsp; 在我深入分析BASIC以及PIPELINE兩種版本的合成結果之後，發現兩者合成出的電路都有特定一種MUX使用的量特別多(兩種版本各自使用最多的MUX為不同種MUX)且電路面積有很大一部分都來自此種MUX。而經過該種特殊MUX的使用量以及其面積比較後得到下方的結果，可以發現使PIPELINE面積大幅下降的原因就在於合成時演算法對於MUX的選擇以及使用。<br />
+![mux](https://user-images.githubusercontent.com/98183102/164143876-f3849a48-6087-48f7-9f37-aee0c8683d70.jpg)
 
-&emsp;&emsp; 而下圖是我將PIPELINE的效應模擬到TLM上的結果，由於PIPELINE會提升for迴圈內累加運算的throughput。故我在TLM read-socket前加了280 cycle的delay來模擬經過PIPELINE後的throughput，可以看到TLM模擬PIPELINE的Simulation time與上方HLS跑出來的Simulation time非常接近。<br />
-![1650381267761@2x](https://user-images.githubusercontent.com/98183102/164046833-c5b598b4-715f-4e7a-b869-392359aca3f9.jpg)<br />
-![1650381207132@2x](https://user-images.githubusercontent.com/98183102/164046850-f623e79d-ad69-499e-a022-05d769fc3215.jpg)<br />
+&emsp;&emsp; 而下圖是我將PIPELINE的效應模擬到TLM上的結果。由於PIPELINE會提升Sorting的Latency，故我在TLM read-socket前加了8 cycle的delay來模擬經過PIPELINE後的Simulation times。可以看到TLM模擬PIPELINE的結果，在Sorting完5個array後總共需要大約400ns。 <br />
+![1650425021074@2x](https://user-images.githubusercontent.com/98183102/164144364-c8a69f89-1f5b-46e8-8b57-8303a5e4f532.jpg) <br />
+![tlm](https://user-images.githubusercontent.com/98183102/164144391-aa1e6f9f-8947-487c-a432-0cd8fb3562eb.jpg)<br />
 
 
 ### 4. Discussions and conclusions
-&emsp;&emsp; 這次的作業讓我學會了使用HLS來進行電路的合成，由於HLS在Datapath上的便利性，可以直接使用各種Directive即可達到各種datapath處理的效果。不過由於內部隱含著很多最佳化的演算法，故最後合成出來的結果可能與我們想像的大相徑庭，或者是根本就很難去想像電路是如何被優化的。故在使用HLS時我認為必須要非常小心，要仔細的評估目前所下的各種Directive才是。
+&emsp;&emsp; 這次的Project中，我學會了挑選特定的演算法並且進行驗證還有電路合成的方法。不過在高階合成的結果有時候會與預期的結果不太符合（例如：PIPELINE後面積反而變小），我想這與高階合成內部的演算法優化有關。我想之後應該要學習準確的「分析合成」結果才是，能更準確得掌握合成出來的電路才能實作出與預期相符且容易除錯的電路。
 
 
