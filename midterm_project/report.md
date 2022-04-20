@@ -2,7 +2,10 @@
 > GitHub link : https://github.com/VincentChen1017/ESL/tree/main/midterm_project
 
 ### 1. Introduction of the Problem and my Solution
-&emsp;&emsp; 在這次的Project中，我挑選的題目是「MergeSort」。我會先透過SystemC TLM進行演算法的驗證，之後再將架構改為可以讓Stratus進行合成的版本。並寫會進行「BASIC」、「UNROLL」還有「PIPELINE」三種不同datapath的分析。
+&emsp;&emsp; 在這次的Project中，我挑選的題目是「MergeSort」。我會先透過SystemC TLM進行演算法的驗證，之後再將架構改為可以讓Stratus進行合成的版本。並寫會進行「BASIC」、「UNROLL」還有「PIPELINE」三種不同datapath的分析。<br />
+&emsp;&emsp; 相較於Software實作MergeSort時需要不斷的呼叫recursive function，Hardware實作時僅需不斷重複「Compare」以及「Combine」即可。故MergeSort是非常有利於硬體實作的<br />
+在Testbench中，我會依序產生5組unsorted的array，每一組array有8個元素，且範圍落在[1,255]。接著利用以下架構來實現硬體上的MergeSort。<br />
+![MergeSort](https://user-images.githubusercontent.com/98183102/164136216-82827b2c-8bcc-4cfc-a034-60c920e145e8.jpg)<br />
 
 ### 2. Implementation details
 &emsp;&emsp; 在進行HLS之前，我們必須注意要將in/out port修改成可以合成以及可以跑Stratus的port。例如System.h檔中的sc_fifo必須改成cynw_p2p以及GaussFilter.h檔中的sc_fifo_in必須改成scynw_p2p<>::in ......。
