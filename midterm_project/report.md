@@ -8,20 +8,15 @@
 ![MergeSort](https://user-images.githubusercontent.com/98183102/164136216-82827b2c-8bcc-4cfc-a034-60c920e145e8.jpg)<br />
 
 ### 2. Implementation details
-&emsp;&emsp; 在進行HLS之前，我們必須注意要將in/out port修改成可以合成以及可以跑Stratus的port。例如System.h檔中的sc_fifo必須改成cynw_p2p以及GaussFilter.h檔中的sc_fifo_in必須改成scynw_p2p<>::in ......。
 
 - UNROLL:
-由於Filter必須進行3x3的卷積，故會有一個雙迴圈，首先我對他們兩個迴圈進行complete Unroll。
-![1650383272784@2x](https://user-images.githubusercontent.com/98183102/164043841-cbad7965-3e62-4a9e-a3af-aac045e560e1.jpg)<br />
+根據上圖的架構，我的演算法中會有很多組迴圈，而內部包含了很多的Compare以及if-else branch。故我對每一個類似的迴圈進行"Completely ON"的UNROLL，試圖讓更多的運算同時進行。<br />
+![1650388650562@2x](https://user-images.githubusercontent.com/98183102/164137580-c927e24e-2ddd-4d26-aefa-ca76cbbf02c7.jpg)<br />
+
 
 - PIPELINE:
-接著每個迴圈內部其實會進行數值的運算並且累加，故我利用PIPELINE的方式試著提升他們的throughput。
-![1650383425090@2x](https://user-images.githubusercontent.com/98183102/164044311-01aeb56f-b3d6-4f8f-b227-d380fed5a56c.jpg)<br />
-
-- UNROLL,PIPELINE:
-最後我同時將全部的LOOP做UNROLL並且對它的累加運算做PIPELINE。試著觀察效能變化。
-![1650383509548@2x](https://user-images.githubusercontent.com/98183102/164044604-462f5c5d-d2a8-4b5b-a497-db1203e30895.jpg)<br />
-
+接著我在Input protocol以及body of sorting body的中間插入interval=1的PIPLINE指令，希望可以讓整個Sorting的過程利用pipeline的方式來提升latency。<br />
+![1650388594873@2x](https://user-images.githubusercontent.com/98183102/164139418-9dec2e26-2fe5-40ed-9cd9-4c324b5f5e78.jpg)<br />
 
 ### 3. Experimental results
 ![hw3](https://user-images.githubusercontent.com/98183102/164047370-facbac12-bd5e-47dd-ac5d-8bada37457db.jpg)<br />
