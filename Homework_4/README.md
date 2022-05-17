@@ -1,9 +1,13 @@
-# GaussBlur Filter
+# Cross-compile Gaussian Blur to RISC-V VP platform
 
-## Stratus
+### First:  
 
-- cd stratus
-- BASIC: make sim_V_BASIC
-- UNROLL: make sim_V_UNROLL
-- PIPELINE: make sim_V_PIPELINE
-- UNROLL+PIPELINE: make sim_V_UNROLL_PIPE
+Remember to build the "basic-acc-gaussian" platform of riscv-vp:  
+
+Add "subdirs(basic-acc-gaussian)" to $EE6470/riscv-vp/vp/src/platform/CMakeLists.txt and run the following instructions:  
+
+$ cd $EE6470
+$ cd riscv-vp/vp/build
+$ cmake ..
+$ make install
+
