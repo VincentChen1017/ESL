@@ -1,5 +1,5 @@
 # ESL Homework_4 report / 107061272 陳力豪
-> GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_3
+> GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_4
 
 ### 1. Introduction of the Problem and my Solution
 &emsp;&emsp; 在這次的作業之中，我試著使用Cadence的Stratus來進行High Level Synthesis的練習。 <br />
