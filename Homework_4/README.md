@@ -2,28 +2,29 @@
 
 * First:    
 
-Remember to build the "basic-acc-gaussian" platform of riscv-vp:  
+  Remember to build the "basic-acc-gaussian" platform of riscv-vp:  
 
-Add "subdirs(basic-acc-gaussian)" to $EE6470/riscv-vp/vp/src/platform/CMakeLists.txt and run the following instructions:  
+  Add "subdirs(basic-acc-gaussian)" to $EE6470/riscv-vp/vp/src/platform/CMakeLists.txt and run the following instructions:  
 
-$ cd $EE6470。
+  $ cd $EE6470。
 
-$ cd riscv-vp/vp/build  
+  $ cd riscv-vp/vp/build  
 
-$ cmake ..  
+  $ cmake ..  
 
-$ make install  
+  $ make install  
 
 * Second:  
 
-Compile the software code by:  
-$ cd $EE6470. 
+  Compile the software code by:  
 
-$ cd riscv-vp/sw. 
+  $ cd $EE6470. 
 
-$ cd basic-gaussian. 
+  $ cd riscv-vp/sw. 
 
-$ make  
+  $ cd basic-gaussian. 
 
-$ make sim
+  $ make  
+
+  $ make sim
 
