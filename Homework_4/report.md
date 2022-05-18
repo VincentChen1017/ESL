@@ -13,7 +13,7 @@
 ![圖片 1](https://user-images.githubusercontent.com/98183102/168950112-50819bd2-6cf5-402b-a416-bc94652b4907.jpg)<br />
 
 ### 4. Discussions and conclusions
-由上述的結果可以明顯的發現，使用DMA來搬運資料可以大幅的減少整個模擬的時間以及CPU core所執行的instruction次數。<br />
+由上述的結果可以明顯的發現，使用DMA來搬運資料可以大幅的減少整個模擬的時間以及CPU core所執行的instruction數目。<br />
 這個結果確實符合預期，因為假設不使用DMA來「直接」獲得資料的話，當Accelator需要使用某筆資料時就需要跟CPU溝通，讓CPU針對內部的register file做出「load/store」的動作。<br />
 而透過DMA讓Accelator直接跟memory溝通的話，則可以省下中間CPU處理繁瑣load/store的多餘程序。故使用DMA可以大幅的提升運算效率。
 
