@@ -2,8 +2,7 @@
 > GitHub link : https://github.com/VincentChen1017/ESL/tree/main/Homework_4
 
 ### 1. Introduction of the Problem and my Solution
-&emsp;&emsp; 在這次的作業之中，我試著使用Cadence的Stratus來進行High Level Synthesis的練習。 <br />
-我將前兩次作業實作的GaussFilter修改成能夠合成的版本，並且將其進行Basic、Pipeline、LOOP UNROLL以及將他們綜合使用後進行效能對比。
+在這次的作業中我們將先前已經完成的GaussianBlur model稍作修改後，將其嵌入RISC-V的Virtual Platform上面做整個系統的模擬。
 
 ### 2. Implementation details
 &emsp;&emsp; 在進行HLS之前，我們必須注意要將in/out port修改成可以合成以及可以跑Stratus的port。例如System.h檔中的sc_fifo必須改成cynw_p2p以及GaussFilter.h檔中的sc_fifo_in必須改成scynw_p2p<>::in ......。
