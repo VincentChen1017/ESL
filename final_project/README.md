@@ -1,12 +1,12 @@
-# Cross-compile Gaussian Blur to RISC-V VP platform
+# Cross-compile Space transform to RISC-V VP platform
 
 * First:    
 
-  Remember to build the "basic-acc-gaussian" platform of riscv-vp:  
+  Remember to build the "acc-color_transfer" & "acc-color_transfer_single_core" platform of riscv-vp:  
 
-  Add "subdirs(basic-acc-gaussian)" to $EE6470/riscv-vp/vp/src/platform/CMakeLists.txt and run the following instructions:  
+  Add "subdirs(acc-color_transfer)" & "subdirs(acc-color_transfer_single_core)" to $EE6470/riscv-vp/vp/src/platform/CMakeLists.txt and run the following instructions:  
 
-  $ cd $EE6470。
+  $ cd $EE6470
 
   $ cd riscv-vp/vp/build  
 
@@ -18,13 +18,15 @@
 
   Compile the software code by:  
 
-  $ cd $EE6470. 
+  $ cd $EE6470
 
-  $ cd riscv-vp/sw. 
+  $ cd riscv-vp/sw 
 
-  $ cd basic-gaussian. 
+  $ cd color-transfer & cd color-transfer_single_core
 
   $ make  
 
   $ make sim
+  
+ # Run the HLS of the Multi cores and single core version
 
