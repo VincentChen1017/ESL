@@ -14,7 +14,7 @@
 
 * HLS Architecture:
 ![1654450797328@2x](https://user-images.githubusercontent.com/98183102/172063189-65e5c76e-e80c-4377-a74e-a9d001fa3438.jpg)
-以為HLS-Module parallel的架構圖。3個獨立的Module會同時對3個Channel做運算。
+此為HLS-Module parallel的架構圖。3個獨立的Module會同時對3個Channel做運算。
 
 
 
