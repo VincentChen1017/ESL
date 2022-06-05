@@ -1,5 +1,5 @@
 # ESL Final_Project - Space Transform / 107061272 陳力豪
-> GitHub link : [https://github.com/VincentChen1017/ESL/tree/main/midterm_project](https://github.com/VincentChen1017/ESL/tree/main/final_project)
+> GitHub link : https://github.com/VincentChen1017/ESL/tree/main/final_project
 
 ### 1. Introduction of the Problem and my Solution
 &emsp;&emsp; 在這次的Project中，我挑選的題目是「MergeSort」。我會先透過SystemC TLM進行演算法的驗證，之後再將架構改為可以讓Stratus進行合成的版本。並寫會進行「BASIC」、「UNROLL」還有「PIPELINE」三種不同datapath的分析。<br />
