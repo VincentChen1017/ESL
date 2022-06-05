@@ -6,6 +6,8 @@
 
 ### 2. Implementation details(Hardware & System Architecture)
 
+* Input Image: lena, Size: 256*256.
+
 * RISCV-VP System Architecture:
 ![1654449735610@2x](https://user-images.githubusercontent.com/98183102/172063138-1d02ffe6-409e-496b-85cb-5ae42281708e.jpg)
 
