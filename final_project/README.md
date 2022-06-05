@@ -28,5 +28,14 @@
 
   $ make sim
   
- # Run the HLS of the Multi cores and single core version
+ # Run the HLS of the multi cores and single core version
+ 
+ * Step:
+   
+   $ cd w_parallel & wo_parallel
+   
+   $ cd stratus
+   
+   $ make sim_all
+   
 
