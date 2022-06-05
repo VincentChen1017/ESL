@@ -6,6 +6,14 @@
 
 ### 2. Implementation details(Hardware & System Architecture)
 
+* RISCV-VP System Architecture:
+![1654449735610@2x](https://user-images.githubusercontent.com/98183102/172063138-1d02ffe6-409e-496b-85cb-5ae42281708e.jpg)
+
+
+* HLS Architecture:
+![1654450797328@2x](https://user-images.githubusercontent.com/98183102/172063189-65e5c76e-e80c-4377-a74e-a9d001fa3438.jpg)
+
+
 
 
 ### 3. Experimental results
@@ -13,6 +21,6 @@
 
 
 ### 4. Discussions and conclusions
-&emsp;&emsp; 這次的Project中，我學會了挑選特定的演算法並且進行驗證還有電路合成的方法。不過在高階合成的結果有時候會與預期的結果不太符合（例如：PIPELINE後面積反而變小），我想這與高階合成內部的演算法優化有關。我想之後應該要學習準確的「分析合成結果」才是，能更準確得掌握合成出來的電路才能實作出與預期相符且容易除錯的電路。
+
 
 
