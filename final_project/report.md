@@ -18,6 +18,25 @@
 
 ### 3. Experimental results
 
+* RISCV-VP single core:
+![1654452323618@2x](https://user-images.githubusercontent.com/98183102/172064177-b1ed2681-f8fb-4144-bcf8-372c863be45c.jpg)
+
+* RISCV-VP multicore core:
+![1654452335443@2x](https://user-images.githubusercontent.com/98183102/172064185-a5ec9271-a610-4467-bf25-b2c57ef8a7c2.jpg)
+
+* HLS without module parallel:
+![1654452024486@2x](https://user-images.githubusercontent.com/98183102/172064277-cd8f4b66-1e68-4739-89a5-a426590a7862.jpg)
+
+* HLS with module parallel:
+![1654452035517@2x](https://user-images.githubusercontent.com/98183102/172064299-99fc7b26-ecc5-40b6-a85b-cb822f234adc.jpg)
+
+* HLS Comparison Table   
+![1654452274391@2x](https://user-images.githubusercontent.com/98183102/172064360-121bd7fb-4d10-4b08-92dc-e6e1bbbeebb7.jpg)
+
+
+
+
+
 
 
 ### 4. Discussions and conclusions
